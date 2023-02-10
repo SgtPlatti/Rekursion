@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.util.Arrays;
 
 public class EightQueens {
     public static void main(String[] args) {
@@ -14,16 +15,25 @@ public class EightQueens {
         };
         char leer = ' ';
         char queen = 'Q';
-        boolean dort;
-        dort = suchFeld(brett, leer, queen, dort);
+        boolean dort = false;
+        int queens = 0;
+        Point prüf = new Point(0, 0);
+        suchFeld(brett, leer, queen, dort, prüf, queens);
+        String ausgabe = "";
+        for (int i = 0; i < brett.length; i++) {
+            for (int j = 0; j < brett[i].length; j++) {
+                ausgabe += brett[i][j];
+            }
+            ausgabe += ("\n");
+        }
+        System.out.println(ausgabe.replace(" ", " ░ ").replace("Q", " Q "));
     }
-    public static boolean suchFeld(char[][] brett, char leer, char queen, boolean dort) {
-            Point prüf = new Point(0, 0);
-
-            prüfW(brett, prüf);
-            prüfS(brett, prüf);
-            prüfD(brett, prüf);
-        return dort;
+    public static boolean suchFeld(char[][] brett, char leer, char queen, boolean dort, Point prüf, int queens) {
+        if (prüfW(brett, prüf) && prüfS(brett, prüf) && prüfD(brett, prüf)) {
+            return true;
+        } else {
+            return false;
+        }
     }
     public static boolean prüfW(char[][] brett, Point prüf) {
         for (int i = 0; i < brett[prüf.x].length; i++) {
@@ -42,7 +52,17 @@ public class EightQueens {
         return true;
     }
     public static boolean prüfD(char[][] brett, Point prüf) {
-        if ()
+        for (int i = 1; i < (brett.length * brett.length); i++) {
+            if (prüf.x-i >= 0
+             && prüf.y+i <= brett[prüf.x].length-1
+             && prüf.y-i >= 0) {
+                if (brett[prüf.x - i][prüf.y + i] == 'Q'
+                 || brett[prüf.x - i][prüf.y - i] == 'Q') {
+                    return false;
+                }
+            }
+
+        }
         return true;
     }
 }
